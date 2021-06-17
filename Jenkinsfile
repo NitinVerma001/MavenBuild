@@ -5,8 +5,8 @@ node('master') {
 	}
         def mvnHome
         stage ('Preparation'){
-		mvnHome = tool 'Maven3'
-	
+		mvnHome = tool 'Maven 3'
+	}
 	stage ('Build'){
 		sh "${mvnHome}/bin/mvn clean install -Dmaven.test.skip=true"
 	}
