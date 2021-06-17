@@ -3,17 +3,20 @@ node('master') {
 	stage ('checkout code'){
 		checkout scm
 	}
+        def mvnHome
+        stage ('Preparation'){
+		mvnHome = tool 'Maven3'
 	
 	stage ('Build'){
-		sh "mvn clean install -Dmaven.test.skip=true"
+		sh "${mvnHome}/bin/mvn clean install -Dmaven.test.skip=true"
 	}
 
 	stage ('Test Cases Execution'){
-		sh "mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install -Pcoverage-per-test"
+		sh "${mvnHome}/bin/mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install -Pcoverage-per-test"
 	}
 
 	stage ('Sonar Analysis'){
-		//sh 'mvn sonar:sonar -Dsonar.host.url=http://35.153.67.119:9000 -Dsonar.login=77467cfd2653653ad3b35463fbfdb09285f08be5'
+		//sh '${mvnHome}/bin/mvn sonar:sonar -Dsonar.host.url=http://35.153.67.119:9000 -Dsonar.login=77467cfd2653653ad3b35463fbfdb09285f08be5'
 	}
 
 	stage ('Archive Artifacts'){
